@@ -8,7 +8,7 @@ export default defineConfig({
     {
       name: "custom-middleware",
       configureServer(server) {
-        server.middlewares.use("/api/scrape", async (req, res) => {
+        server.middlewares.use("/api/scrape", async (_req, res) => {
           try {
             const data = await scrapeUFC();
             res.setHeader("Content-Type", "application/json");
