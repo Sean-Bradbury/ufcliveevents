@@ -11,7 +11,12 @@ export async function scrapeUFC() {
     const eventCards = await page.$$(".c-card-event--result");
 
     // loop through each event and get 'c-card-event--result__headline' c-card-event--result__headline text content 'c-card-event--result__date' data-prelims-card-timestamp attribute and data-main-card-timestamp attribute and return in an array of objects
-    const eventDetails = [];
+    const eventDetails: {
+        headline: string;
+        cardUrl: string;
+        prelimsTimestamp: string | null;
+        mainTimestamp: string | null;
+    }[] = [];
     for (const card of eventCards) {
         const headline = await card.$eval(".c-card-event--result__headline", el => el.textContent.trim());
         const cardUrl = await card.$eval(".c-card-event--result__headline a", el => el.href.trim());
