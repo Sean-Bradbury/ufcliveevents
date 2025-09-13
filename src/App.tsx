@@ -17,7 +17,7 @@ function App() {
   const handleScrape = async () => {
     setLoading(true); // <-- Start loading
     try {
-      const res = await fetch('/.netlify/functions/scrape');
+      const res = await fetch('/netlify/functions/scrape');
       const data = await res.json();
 
       console.log(data);
