@@ -10,7 +10,7 @@ export async function scrapeUFC() {
     // get all 'c-card-event--result' elements
     const eventCards = await page.$$(".c-card-event--result");
 
-    // loop through each event and get 'c-card-event--result__headline' c-card-event--result__headline text content 'c-card-event--result__date' data-prelims-card-timestamp attribute and data-main-card-timestamp attribute and return in an array of objects
+    // loop through each event and get details
     const eventDetails: {
         headline: string;
         cardUrl: string;
@@ -18,14 +18,26 @@ export async function scrapeUFC() {
         mainTimestamp: string | null;
     }[] = [];
     for (const card of eventCards) {
-        const headline = await card.$eval(".c-card-event--result__headline", el => el.textContent.trim());
-        const cardUrl = await card.$eval(".c-card-event--result__headline a", el => el.href.trim());
-        const prelimsTimestamp = await card.$eval(".c-card-event--result__date", el => el.getAttribute("data-prelims-card-timestamp"));
-        const mainTimestamp = await card.$eval(".c-card-event--result__date", el => el.getAttribute("data-main-card-timestamp"));
+        const headline = await card.$eval(
+            ".c-card-event--result__headline",
+            el => (el as HTMLElement).textContent?.trim() || ""
+        );
+        const cardUrl = await card.$eval(
+            ".c-card-event--result__headline a",
+            el => (el as HTMLAnchorElement).href.trim()
+        );
+        const prelimsTimestamp = await card.$eval(
+            ".c-card-event--result__date",
+            el => (el as HTMLElement).getAttribute("data-prelims-card-timestamp")
+        );
+        const mainTimestamp = await card.$eval(
+            ".c-card-event--result__date",
+            el => (el as HTMLElement).getAttribute("data-main-card-timestamp")
+        );
         eventDetails.push({ headline, cardUrl, prelimsTimestamp, mainTimestamp });
     }
 
     await browser.close();
 
-    return { eventDetails: eventDetails };
+    return { eventDetails };
 }
