@@ -1,6 +1,9 @@
-const cheerio = require('cheerio');
+import cheerio from 'cheerio';
 
-exports.handler = async function () {
+const fetch = (...args) =>
+  import('node-fetch').then((mod) => mod.default(...args));
+
+export async function handler() {
   try {
     const res = await fetch('https://www.ufc.com/events');
     const html = await res.text();
@@ -41,8 +44,4 @@ exports.handler = async function () {
       headers: { 'Content-Type': 'application/json' },
     };
   }
-};
-
-// Use dynamic import for node-fetch
-const fetch = (...args) =>
-  import('node-fetch').then((mod) => mod.default(...args));
+}
