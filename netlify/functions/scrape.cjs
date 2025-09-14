@@ -1,9 +1,8 @@
-import cheerio from 'cheerio';
-
+const cheerio = require('cheerio');
 const fetch = (...args) =>
   import('node-fetch').then((mod) => mod.default(...args));
 
-export async function handler() {
+exports.handler = async function () {
   try {
     const res = await fetch('https://www.ufc.com/events');
     const html = await res.text();
@@ -44,4 +43,4 @@ export async function handler() {
       headers: { 'Content-Type': 'application/json' },
     };
   }
-}
+};
