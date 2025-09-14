@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
 exports.handler = async function () {
@@ -43,3 +42,7 @@ exports.handler = async function () {
     };
   }
 };
+
+// Use dynamic import for node-fetch
+const fetch = (...args) =>
+  import('node-fetch').then((mod) => mod.default(...args));
