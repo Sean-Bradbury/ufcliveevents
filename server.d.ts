@@ -1,4 +1,4 @@
 
 declare module 'server' {
-    export function scrapeUFC();
+    export function scrapeUFC(): Promise<object>;
 }
